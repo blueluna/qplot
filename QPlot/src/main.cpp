@@ -1,0 +1,10 @@
+#include "qplot.h"
+#include <QtGui/QApplication>
+
+int main(int argc, char *argv[])
+{
+	QApplication a(argc, argv);
+	QPlot w;
+	w.show();
+	return a.exec();
+}

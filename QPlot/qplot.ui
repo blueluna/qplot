@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>QPlotClass</class>
+ <widget class="QMainWindow" name="QPlotClass">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>600</width>
+    <height>400</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>QPlot</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">* {
+	color: rgb(223, 223, 223);
+	background: rgb(47, 47, 47);
+}
+QLineEdit, QTreeView, QTreeWidget {
+    border: 1px solid rgb(64, 64, 64);
+	border-radius: 3px;
+ }
+QLineEdit {
+	background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(47, 47, 47, 255), stop:1 rgba(64, 64, 64, 255));
+}
+QLineEdit:read-only {
+	background: rgb(53, 53, 53);
+}
+QMenuBar {
+	background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(96, 96, 96, 255), stop:1 rgba(47, 47, 47, 255));
+}
+QMenuBar::item {
+	background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(96, 96, 96, 255), stop:1 rgba(47, 47, 47, 255));
+}
+QMenuBar::item:selected {
+	background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(96, 96, 96, 255), stop:1 rgba(64, 64, 64, 255));
+ }
+QMenu {
+	background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(47, 47, 47, 255), stop:1 rgba(47, 47, 47, 255));
+}
+QMenu::item {
+	padding: 2px 25px 2px 20px;
+    border: 1px solid transparent;
+ }
+ QMenu::item:selected {
+	background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(47, 47, 47, 255), stop:1 rgba(64, 64, 64, 255));
+	border-color: rgb(50, 50, 50);
+ }
+QMenu::separator {
+	border: 1px inset rgba(40, 40, 40, 255);
+	height: 0px;
+}
+QHeaderView::section {
+	background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:1 rgba(47, 47, 47, 255), stop:0 rgba(64, 64, 64, 255));
+	color: rgb(223, 223, 223);
+	padding: 4px;
+    border: 1px solid rgb(64, 64, 64);
+ }
+ </string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="MyDxWidget" name="widget" native="true"/>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>600</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QToolBar" name="mainToolBar">
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>MyDxWidget</class>
+   <extends>QWidget</extends>
+   <header>mydxwidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="qplot.qrc"/>
+ </resources>
+ <connections/>
+</ui>
