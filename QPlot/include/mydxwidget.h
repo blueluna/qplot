@@ -5,6 +5,7 @@
 #include <QColor>
 #include <QMatrix4x4>
 #include <QTimer>
+#include <QElapsedTimer>
 
 class MyDxWidget
 	: public DX10Widget
@@ -32,7 +33,12 @@ protected:
 	D3DXMATRIXA16				dxProjection;
 
 	QTimer						redrawTimer;
+	float						redrawInterval;
+	float						redrawAccumulator;
+	float						redrawCount;
+	float						redrawTime;
 
+	QElapsedTimer				timer;
 	float						index;
 
 	ID3D10InputLayout*          vertexLayout;
@@ -50,6 +56,7 @@ public:
 	~MyDxWidget();
 
 	void	SetClearColor(QColor color) { clearColor = color; }
+	float	GetRedrawInterval() { return redrawInterval; }
 
 private:
 	virtual void	setupScene();

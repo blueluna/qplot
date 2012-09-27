@@ -26,6 +26,10 @@ protected:
 public:
 	DX10Widget(QWidget *parent = 0, Qt::WFlags flags = 0);
 	~DX10Widget();
+	
+	HRESULT			Initialize();
+
+	QString			GetVersion();
 
 protected:
 	virtual void	setupScene() = 0;
@@ -34,7 +38,6 @@ protected:
 	virtual void	resize(int width, int height);
 	virtual void	render();
 	
-	HRESULT			initialize();
 	void			uninitialize();
 
 	QPaintEngine*	paintEngine() const { return 0; } 
@@ -46,6 +49,9 @@ protected:
 	void			clearRenderTarget(D3DXCOLOR ClearColor);
 	void			clearDepthStencil(float Z, DWORD Stencil);
 	HRESULT			present();
+
+signals:
+     void			initialized(int code);
 };
 
 #endif // DX10WIDGET_H

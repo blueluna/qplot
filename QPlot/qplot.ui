@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
-    <height>400</height>
+    <width>747</width>
+    <height>508</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -63,7 +63,43 @@ QHeaderView::section {
   <widget class="QWidget" name="centralWidget">
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
-     <widget class="MyDxWidget" name="widget" native="true"/>
+     <layout class="QHBoxLayout" name="hbox" stretch="0,1">
+      <item>
+       <layout class="QFormLayout" name="formLayout">
+        <item row="0" column="0">
+         <widget class="QLabel" name="directXVersionLabel">
+          <property name="text">
+           <string>DirectX Version</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLineEdit" name="directXVersionLineEdit">
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="drawIntervalLabel">
+          <property name="text">
+           <string>Draw Interval</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QLineEdit" name="drawIntervalLineEdit">
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="MyDxWidget" name="widget" native="true"/>
+      </item>
+     </layout>
     </item>
    </layout>
   </widget>
@@ -72,7 +108,7 @@ QHeaderView::section {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>600</width>
+     <width>747</width>
      <height>21</height>
     </rect>
    </property>

@@ -3,6 +3,7 @@
 
 #include <QtGui/QMainWindow>
 #include "ui_qplot.h"
+#include <QTimer>
 
 class QPlot
 	: public QMainWindow
@@ -14,11 +15,15 @@ public:
 	~QPlot();
 
 private:
-	Ui::QPlotClass ui;
+	Ui::QPlotClass	ui;
+	QTimer			uiUpdateTimer;
 
 protected:
 	void changeEvent(QEvent * event);
-	
+
+protected slots:
+	void onRendererInitialized(int code);
+	void onUpdateUI();
 };
 
 #endif // QPLOT_H

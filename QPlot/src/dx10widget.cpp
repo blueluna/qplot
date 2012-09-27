@@ -8,6 +8,8 @@ DX10Widget::DX10Widget(QWidget *parent, Qt::WFlags flags)
 	, m_pRenderTargetView(0)
 	, m_pDepthStencil(0)
 	, m_pDepthStencilView(0)
+	, featureLevel(D3D10_FEATURE_LEVEL_9_1)
+	, driverType(D3D10_DRIVER_TYPE_NULL)
 {
 	setAttribute(Qt::WA_PaintOnScreen);
 	setAttribute(Qt::WA_NoSystemBackground);
@@ -18,6 +20,48 @@ DX10Widget::~DX10Widget()
 	uninitialize();
 }
 
+QString DX10Widget::GetVersion()
+{
+	QString version;
+
+	switch(featureLevel) {
+	case D3D10_FEATURE_LEVEL_10_1:
+		version += tr("10.1");
+		break;
+	case D3D10_FEATURE_LEVEL_10_0:
+		version += tr("10.0");
+		break;
+	case D3D10_FEATURE_LEVEL_9_3:
+		version += tr("9.3");
+		break;
+	case D3D10_FEATURE_LEVEL_9_2:
+		version += tr("9.2");
+		break;
+	case D3D10_FEATURE_LEVEL_9_1:
+		version += tr("9.1");
+		break;
+	default:
+		version += tr("?.?");
+		break;
+	}
+
+	version += tr(" ");
+
+	switch (driverType) {
+	case D3D10_DRIVER_TYPE_HARDWARE:
+		version += tr("Hardware");
+		break;
+	case D3D10_DRIVER_TYPE_WARP:
+		version += tr("Warp");
+		break;
+	default:
+		version += tr("?");
+		break;
+	}
+
+	return version;
+}
+
 //-----------------------------------------------------------------------------
 // Name: initialize()
 // Desc: This function will only be called once during the application's 
@@ -25,7 +69,7 @@ DX10Widget::~DX10Widget()
 //       need to be restored every time the Direct3D device is lost or the 
 //       window is resized.
 //-----------------------------------------------------------------------------
-HRESULT DX10Widget::initialize()
+HRESULT DX10Widget::Initialize()
 {
 	HRESULT hr = S_OK;
 
@@ -135,6 +179,9 @@ HRESULT DX10Widget::initialize()
 	if (SUCCEEDED(hr)) {
 		setupScene();
 	}
+	
+	emit initialized(hr);
+
 	return hr;
 }
 
@@ -314,7 +361,7 @@ HRESULT DX10Widget::present()
 		
 	if (hr == DXGI_ERROR_DEVICE_RESET || hr == DXGI_ERROR_DEVICE_REMOVED) {
 		uninitialize();
-		hr = initialize();
+		hr = Initialize();
 	}
 
 	return hr;

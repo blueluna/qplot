@@ -47,7 +47,7 @@ VS_OUTPUT Ripple( in float2 vPosition : POSITION )
 
     // Change the y of the vertex position based on a function of time 
     // and transform the vertex into projection space. 
-    Output.Position = mul( float4( vPosition.x, vPosition.y, fCos, 1.0f ), mWorldViewProj );
+    Output.Position = mul( float4( vPosition.x, vPosition.y, fCos - 1.0f, 1.0f ), mWorldViewProj );
     
     // Output the diffuse color as function of time and 
     // the vertex's object space position

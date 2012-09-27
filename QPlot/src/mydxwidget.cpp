@@ -11,10 +11,12 @@ MyDxWidget::MyDxWidget(QWidget *parent)
 	, pixelShader(0)
 	, shaderBuffer(0)
 	, redrawTimer(this)
+	, redrawInterval(30.0f)
+	, redrawAccumulator(0.0f)
+	, redrawCount(0.0f)
 {
-	initialize();
 	connect(&redrawTimer, SIGNAL(timeout()), this, SLOT(repaint()));
-	redrawTimer.setInterval(60.0);
+	redrawTimer.setInterval(redrawInterval);
 }
 
 MyDxWidget::~MyDxWidget()
@@ -32,7 +34,7 @@ void MyDxWidget::setupScene()
 	DWORD dwNumVertices = VERTS_PER_EDGE * VERTS_PER_EDGE;
 	DWORD dwNumIndices = 6 * (VERTS_PER_EDGE - 1) * (VERTS_PER_EDGE - 1);
 	
-	float offset = float(D3DX_PI);
+	float offset = D3DX_PI / 2.0f;
     projectionMatrix.ortho(-offset, offset, -offset, offset, -100.0f, 100.0f);
 
 	// Create a constant buffer
@@ -175,7 +177,7 @@ void MyDxWidget::setupScene()
 
 	// Create a rasterizer state to disable culling
 	D3D10_RASTERIZER_DESC RSDesc;
-	RSDesc.FillMode = D3D10_FILL_WIREFRAME;
+	RSDesc.FillMode = D3D10_FILL_SOLID;
 	RSDesc.CullMode = D3D10_CULL_NONE;
 	RSDesc.FrontCounterClockwise = TRUE;
 	RSDesc.DepthBias = 0;
@@ -196,6 +198,7 @@ void MyDxWidget::setupScene()
 	hr = m_pDevice->CreateDepthStencilState(&DSDesc, &stencilState);
 	if (hr != S_OK) { return; }
 	else {
+		timer.start();
 		redrawTimer.start();
 	}
 }
@@ -229,9 +232,21 @@ void MyDxWidget::render()
 {
 	HRESULT hr = S_OK;
 	clearScene(D3DXCOLOR(clearColor.redF(), clearColor.greenF(), clearColor.blueF(), 1.0f), 1.0f, 0);
+	
+	redrawTime = timer.restart() / 1000.0f;
 	// DX10 spec only guarantees Sincos function from -100 * Pi to 100 * Pi
-	index += 0.01;
+	index += redrawTime;
 	float indexClamp = (float)index - (floor(index / (2.0f * D3DX_PI)) * 2.0f * D3DX_PI);
+
+	if (redrawCount >= 100.0f) {
+		redrawInterval = 10.0f * ceil(redrawAccumulator / (redrawCount * 10.0f));
+		redrawTimer.setInterval(redrawInterval);
+		redrawAccumulator = 0.0f;
+		redrawCount = 0.0f;
+	}
+
+	redrawAccumulator += (1000.0f * redrawTime);
+	redrawCount += 1.0f;
 
 	DWORD VERTS_PER_EDGE = 64;
 	DWORD dwNumIndices = 6 * (VERTS_PER_EDGE - 1) * (VERTS_PER_EDGE - 1);
